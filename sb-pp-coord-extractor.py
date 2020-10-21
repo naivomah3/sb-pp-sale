@@ -5,7 +5,7 @@ from mapbox import Geocoder
 import requests
 import configparser
 
-# Load Parser
+# Load settings
 config = configparser.ConfigParser()
 config.read('config.ini')
 
