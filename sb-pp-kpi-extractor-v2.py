@@ -136,18 +136,25 @@ def main():
             EXPENSES_ELECTRICITY = row[24]
             EXPENSES_HEATING = row[25] + row[26]
             REVENUS_GROSS_ROUND = round(RBA, -3)
-            NORMALYZED_EXPENSES_VACANCY = round(RBA*0.03, 2)
+            NORMALYZED_EXPENSES_VACANCY = round(RBA * 0.03, 2)
             EXPENSES_INSURANCES = SetExpensesInsurances(UNIT_NUMBER, int(row[27]))
 
             if UNIT_NUMBER >= 5:
                 NORMALYZED_EXPENSES_MAINTENANCE = UNIT_NUMBER*500
                 NORMALYZED_EXPENSES_CONCIERGE = CalculNormalyzecExpenseConcierge(UNIT_NUMBER)
                 NORMALYZED_EXPENSES_MANAGMENT = CalculNormalyzecExpenseManagement(UNIT_NUMBER, RBA)
-                TOTAL_NORMALYZED_EXPENSE = round(EXPENSES_INSURANCES+EXPENSES_ELECTRICITY+EXPENSES_HEATING+TAXES_MUNI+TAXES_SCHOOL+NORMALYZED_EXPENSES_MAINTENANCE +
-                                                 NORMALYZED_EXPENSES_CONCIERGE+NORMALYZED_EXPENSES_MANAGMENT+NORMALYZED_EXPENSES_VACANCY, 2)
-                NORMALYZED_EXPENSES_ROUND = abs(round(TOTAL_NORMALYZED_EXPENSE, -2))
+                TOTAL_NORMALYZED_EXPENSE = round(EXPENSES_INSURANCES +
+                                                 EXPENSES_ELECTRICITY +
+                                                 EXPENSES_HEATING +
+                                                 TAXES_MUNI +
+                                                 TAXES_SCHOOL +
+                                                 NORMALYZED_EXPENSES_MAINTENANCE +
+                                                 NORMALYZED_EXPENSES_CONCIERGE +
+                                                 NORMALYZED_EXPENSES_MANAGMENT +
+                                                 NORMALYZED_EXPENSES_VACANCY, 2)
 
-                NET_NORMALYZED_INCOME = round(RBA-TOTAL_NORMALYZED_EXPENSE, 2)
+                NORMALYZED_EXPENSES_ROUND = abs(round(TOTAL_NORMALYZED_EXPENSE, -2))
+                NET_NORMALYZED_INCOME = round(RBA - TOTAL_NORMALYZED_EXPENSE, 2)
                 CAP_RATE = round((NET_NORMALYZED_INCOME/PURCHASE_PRICE)*100, 2)
                 PRICE_PER_UNIT = round(PURCHASE_PRICE/UNIT_NUMBER, 2)
                 GROSS_REVENUE_MULTIPLICATOR = round(PURCHASE_PRICE/RBA, 2)
@@ -156,11 +163,33 @@ def main():
                 if PURCHASE_PRICE > 50000 and 5 < GROSS_REVENUE_MULTIPLICATOR < 80 and 5 < NET_REVENUE_MULTIPLICATOR < 50:
                     print("ID : "+str(row[0])+" - UNIT:"+str(UNIT_NUMBER)+" - RBA: "+str(RBA)+" - VACANCY: "+str(NORMALYZED_EXPENSES_VACANCY)+" - ASS: "+str(EXPENSES_INSURANCES)+" - Maintenance: "+str(NORMALYZED_EXPENSES_MAINTENANCE)+" - Concierge : "+str(
                         NORMALYZED_EXPENSES_CONCIERGE)+" - Mgmt: "+str(NORMALYZED_EXPENSES_MANAGMENT)+" - TOTAL_EXPENSE: "+str(TOTAL_NORMALYZED_EXPENSE)+" - PPU : "+str(PRICE_PER_UNIT)+" - CAP Rate: "+str(CAP_RATE)+" - MRB: "+str(GROSS_REVENUE_MULTIPLICATOR)+" - MRN :"+str(NET_REVENUE_MULTIPLICATOR))
-                    save_mysql_upky_comparable_properties(connmysql, CREATION_DATE, PURCHASE_PRICE, ADDRESSES_FULL, LATITUDE, LONGITUDE, UNIT_NUMBER, YEAR_BUILD,
-                                                          REVENUS_GROSS_ROUND, NORMALYZED_EXPENSES_ROUND, CAP_RATE, PRICE_PER_UNIT, GROSS_REVENUE_MULTIPLICATOR, NET_REVENUE_MULTIPLICATOR, SOLD_DATE)
+
+                    save_mysql_upky_comparable_properties(connmysql,
+                                                          CREATION_DATE,
+                                                          PURCHASE_PRICE,
+                                                          ADDRESSES_FULL,
+                                                          LATITUDE,
+                                                          LONGITUDE,
+                                                          UNIT_NUMBER,
+                                                          YEAR_BUILD,
+                                                          REVENUS_GROSS_ROUND,
+                                                          NORMALYZED_EXPENSES_ROUND,
+                                                          CAP_RATE,
+                                                          PRICE_PER_UNIT,
+                                                          GROSS_REVENUE_MULTIPLICATOR,
+                                                          NET_REVENUE_MULTIPLICATOR,
+                                                          SOLD_DATE)
 
             if 2 <= UNIT_NUMBER <= 4 and RBA > 5000:
-                TOTAL_NORMALYZED_EXPENSE = round(EXPENSES_INSURANCES+EXPENSES_ELECTRICITY+EXPENSES_HEATING+TAXES_MUNI+TAXES_SCHOOL+NORMALYZED_EXPENSES_VACANCY+int(row[27])+int(row[28]), 2)
+                TOTAL_NORMALYZED_EXPENSE = round(EXPENSES_INSURANCES +
+                                                 EXPENSES_ELECTRICITY +
+                                                 EXPENSES_HEATING +
+                                                 TAXES_MUNI +
+                                                 TAXES_SCHOOL +
+                                                 NORMALYZED_EXPENSES_VACANCY +
+                                                 int(row[27]) +
+                                                 int(row[28]), 2)
+
                 NORMALYZED_EXPENSES_ROUND = round(TOTAL_NORMALYZED_EXPENSE, -2)
                 NET_NORMALYZED_INCOME = round(RBA-TOTAL_NORMALYZED_EXPENSE, 2)
                 CAP_RATE = round((NET_NORMALYZED_INCOME/PURCHASE_PRICE)*100, 2)
@@ -171,10 +200,31 @@ def main():
                 if PURCHASE_PRICE > 30000 and 5 < GROSS_REVENUE_MULTIPLICATOR < 50 and 5 < NET_REVENUE_MULTIPLICATOR < 80:
                     TOTALMRN = TOTALMRN + NET_REVENUE_MULTIPLICATOR
                     i = i + 1
-                    print("ID : "+str(row[0])+" - UNIT:"+str(UNIT_NUMBER)+" - RBA: "+str(RBA)+" - VACANCY: "+str(NORMALYZED_EXPENSES_VACANCY)+" - ASS: "+str(EXPENSES_INSURANCES) +
-                          " - TOTAL_EXPENSE: "+str(TOTAL_NORMALYZED_EXPENSE)+" - PPU : "+str(PRICE_PER_UNIT)+" - MRB: "+str(GROSS_REVENUE_MULTIPLICATOR)+" - MRN :"+str(NET_REVENUE_MULTIPLICATOR))
-                    save_mysql_upky_comparable_properties(connmysql, CREATION_DATE, PURCHASE_PRICE, ADDRESSES_FULL, LATITUDE, LONGITUDE, UNIT_NUMBER, YEAR_BUILD,
-                                                          REVENUS_GROSS_ROUND, NORMALYZED_EXPENSES_ROUND, CAP_RATE, PRICE_PER_UNIT, GROSS_REVENUE_MULTIPLICATOR, NET_REVENUE_MULTIPLICATOR, SOLD_DATE)
+                    print("ID : " + str(row[0]) +
+                          "\n - UNIT:" + str(UNIT_NUMBER) +
+                          "\n - RBA: " + str(RBA) +
+                          "\n - VACANCY: " + str(NORMALYZED_EXPENSES_VACANCY) +
+                          "\n - ASS: " + str(EXPENSES_INSURANCES) +
+                          "\n - TOTAL_EXPENSE: " + str(TOTAL_NORMALYZED_EXPENSE) +
+                          "\n - PPU : " + str(PRICE_PER_UNIT) +
+                          "\n - MRB: " + str(GROSS_REVENUE_MULTIPLICATOR) +
+                          "\n - MRN :" + str(NET_REVENUE_MULTIPLICATOR))
+
+                    save_mysql_upky_comparable_properties(connmysql,
+                                                          CREATION_DATE,
+                                                          PURCHASE_PRICE,
+                                                          ADDRESSES_FULL,
+                                                          LATITUDE,
+                                                          LONGITUDE,
+                                                          UNIT_NUMBER,
+                                                          YEAR_BUILD,
+                                                          REVENUS_GROSS_ROUND,
+                                                          NORMALYZED_EXPENSES_ROUND,
+                                                          CAP_RATE,
+                                                          PRICE_PER_UNIT,
+                                                          GROSS_REVENUE_MULTIPLICATOR,
+                                                          NET_REVENUE_MULTIPLICATOR,
+                                                          SOLD_DATE)
 
 
 if __name__ == '__main__':
